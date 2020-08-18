@@ -9,7 +9,7 @@ export default class Default extends Component {
           </p>
           <p className='h5'>
             The Requested URL &nbsp;
-            <span className='text-info'>{this.props.location.pathname}</span>
+            {/* <span className='text-info'>{this.props.location.pathname}</span> */}
             &nbsp; does not exist !
           </p>
         </div>

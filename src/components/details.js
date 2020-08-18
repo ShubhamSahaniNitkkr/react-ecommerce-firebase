@@ -19,7 +19,7 @@ export default class Details extends Component {
           return (
             <div
               className='card mx-auto col-md-10 my-4'
-              style={{ width: '100%', paddingTop: '3.0rem' }}
+              style={{ width: '100%', paddingTop: '1.0rem' }}
             >
               <Link to='/' className='card-title text-left'>
                 <i className='fas fa-angle-double-left'> </i> Back
@@ -36,7 +36,7 @@ export default class Details extends Component {
                     />
                   </div>
                   <div className='col-md-6'>
-                    <p className='card-text h-50 '>{info}</p>
+                    <p className='card-text '>{info}</p>
                     <hr />
                     <p className='card-text alert alert-success' role='alert'>
                       {' '}

@@ -39,7 +39,7 @@ export default class Product extends Component {
                   </Link>
 
                   <button
-                    className='btn btn-outline-info'
+                    className='btn btn-outline-info ml-1'
                     disabled={inCart ? true : false}
                     onClick={() => {
                       value.addToCart(id);

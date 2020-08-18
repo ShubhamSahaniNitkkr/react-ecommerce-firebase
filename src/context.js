@@ -1,3 +1,4 @@
+import fire from './config/fire';
 import React, { Component } from 'react';
 import { ecommerceProducts, detailProduct } from './data';
 const ProductContext = React.createContext();
@@ -170,6 +171,10 @@ class ProductProvider extends Component {
     });
   };
 
+  logout = () => {
+    fire.auth().signOut();
+  };
+
   render() {
     return (
       <ProductContext.Provider
@@ -183,6 +188,7 @@ class ProductProvider extends Component {
           decrement: this.decrement,
           removeItem: this.removeItem,
           clearCart: this.clearCart,
+          logout: this.logout,
         }}
       >
         {this.props.children}
