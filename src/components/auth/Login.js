@@ -12,6 +12,14 @@ export default class Login extends Component {
                 className='card mt-5 p-3 shadow bg-white rounded'
                 style={{ width: '19rem', margin: '0 auto' }}
               >
+                {value.err.msg !== '' && (
+                  <h5
+                    className={`card-title alert alert-${value.err.type}`}
+                    role='alert'
+                  >
+                    {value.err.msg}
+                  </h5>
+                )}
                 <i className='fas fa-sign-in-alt fa-5x text-info text-center'></i>
                 <p className='text-center text-success'>Log in</p>
                 <label htmlFor='inputEmail'>

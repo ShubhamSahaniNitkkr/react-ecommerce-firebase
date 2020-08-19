@@ -18,6 +18,10 @@ class ProductProvider extends Component {
     email: '',
     password: '',
     uid: null,
+    err: {
+      msg: '',
+      type: '',
+    },
   };
 
   componentDidMount() {
@@ -57,12 +61,13 @@ class ProductProvider extends Component {
     product.total = price;
     this.setState(
       () => {
-        return { products: tempProducts, cart: [...this.state.cart, product] };
+        return {
+          products: tempProducts,
+          cart: [...this.state.cart, product],
+        };
       },
-
       () => {
         this.addTotals();
-        this.setFireCart();
       }
     );
   };
@@ -170,6 +175,7 @@ class ProductProvider extends Component {
     const tempTax = subTotal * 0.1;
     const tax = parseFloat(tempTax.toFixed(2));
     const total = subTotal + tax;
+    this.setFireCart(subTotal, tax, total);
     this.setState(() => {
       return {
         cartSubTotal: subTotal,
@@ -210,16 +216,37 @@ class ProductProvider extends Component {
       .doc(this.state.uid)
       .get()
       .then((doc) => {
-        this.setState({
-          cart: doc.data() ? doc.data().cart : [],
-        });
+        console.log(doc.data(), 'hi');
+        if (doc.data()) {
+          this.setState({
+            cart: doc.data().cart,
+            cartSubTotal: doc.data().cartSubTotal,
+            cartTax: doc.data().cartTax,
+            cartTotal: doc.data().cartTotal,
+            err: {
+              msg: '',
+              type: '',
+            },
+          });
+        } else {
+          this.setState({
+            cart: [],
+            err: {
+              msg: '',
+              type: '',
+            },
+          });
+        }
       });
   };
 
-  setFireCart = () => {
+  setFireCart = (subTotal, tax, total) => {
     const db = fire.firestore();
     db.collection('products').doc(this.state.uid).set({
       cart: this.state.cart,
+      cartSubTotal: subTotal,
+      cartTax: tax,
+      cartTotal: total,
     });
   };
 
@@ -229,9 +256,14 @@ class ProductProvider extends Component {
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then((user) => {
-        console.log(user);
+        this.setState({
+          err: { msg: 'Sucessfully LoggedIn', type: 'success' },
+        });
       })
       .catch((err) => {
+        this.setState({
+          err: { msg: 'Invalid User or Password', type: 'danger' },
+        });
         console.log(err);
       });
   };
@@ -242,11 +274,14 @@ class ProductProvider extends Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((user) => {
-        alert('Registered !');
-        BrowserRouter.push('/');
+        this.setState({
+          err: { msg: 'Sucessfully LoggedIn', type: 'success' },
+        });
       })
       .catch((err) => {
-        alert('Email has been already used');
+        this.setState({
+          err: { msg: 'Email has been already used', type: 'danger' },
+        });
       });
   };
 

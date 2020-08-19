@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 export default function CartTotal({ value, history }) {
   const { cartSubTotal, cartTax, cartTotal, clearCart } = value;
@@ -17,13 +16,11 @@ export default function CartTotal({ value, history }) {
         <tbody>
           <tr>
             <td>
-              <Link to='/'>
+              {' '}
+              <button className='btn btn-danger' onClick={() => clearCart()}>
                 {' '}
-                <button className='btn btn-danger' onClick={() => clearCart()}>
-                  {' '}
-                  <i className='fas fa-trash-alt'></i> Clear cart
-                </button>{' '}
-              </Link>
+                <i className='fas fa-trash-alt'></i> Clear cart
+              </button>{' '}
             </td>
             <td>{cartSubTotal}</td>
             <td>{cartTax}</td>
