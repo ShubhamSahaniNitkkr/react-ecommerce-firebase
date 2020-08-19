@@ -19,7 +19,7 @@ export default class Modal extends Component {
                 style={{
                   width: '25rem',
                   position: 'fixed',
-                  top: '-20vh',
+                  top: '0',
                   left: '0',
                   right: '0',
                   bottom: '12',

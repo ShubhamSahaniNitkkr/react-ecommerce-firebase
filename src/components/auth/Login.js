@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
 import fire from '../../config/fire';
 
 export default class Login extends Component {
@@ -23,6 +25,7 @@ export default class Login extends Component {
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then((user) => {
         console.log(user);
+        BrowserRouter.push('/');
       })
       .catch((err) => {
         console.log(err);
@@ -36,9 +39,10 @@ export default class Login extends Component {
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((user) => {
         alert('Registered !');
+        BrowserRouter.push('/');
       })
       .catch((err) => {
-        alert('Crediential not right !');
+        alert('Email has been already used');
       });
   };
 

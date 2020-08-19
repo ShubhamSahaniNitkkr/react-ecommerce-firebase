@@ -8,7 +8,11 @@ export default function CartItem({ item, value }) {
       <tr>
         <td>
           {' '}
-          <img src={img} style={{ width: '5rem', height: '5rem' }} />{' '}
+          <img
+            src={img}
+            alt={img}
+            style={{ width: '5rem', height: '5rem' }}
+          />{' '}
         </td>
         <td>{title}</td>
         <td>{price}</td>

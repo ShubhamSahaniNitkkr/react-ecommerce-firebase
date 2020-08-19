@@ -13,6 +13,7 @@ class ProductProvider extends Component {
     cartSubTotal: 0,
     cartTax: 0,
     cartTotal: 0,
+    user: {},
   };
   componentDidMount() {
     this.setProducts();
@@ -175,6 +176,26 @@ class ProductProvider extends Component {
     fire.auth().signOut();
   };
 
+  authListner = () => {
+    fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user });
+      } else {
+        this.setState({ user: null });
+      }
+    });
+  };
+
+  getStoreData = () => {
+    fire
+      .firestore()
+      .collection('products')
+      .get()
+      .then((snapshot) => {
+        console.log(snapshot, 'man');
+      });
+  };
+
   render() {
     return (
       <ProductContext.Provider
@@ -189,6 +210,8 @@ class ProductProvider extends Component {
           removeItem: this.removeItem,
           clearCart: this.clearCart,
           logout: this.logout,
+          authListner: this.authListner,
+          getStoreData: this.getStoreData,
         }}
       >
         {this.props.children}
@@ -198,4 +221,4 @@ class ProductProvider extends Component {
 }
 
 const ProductConsumer = ProductContext.Consumer;
-export { ProductProvider, ProductConsumer };
+export { ProductProvider, ProductConsumer, ProductContext };
