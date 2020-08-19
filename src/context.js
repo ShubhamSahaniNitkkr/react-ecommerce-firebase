@@ -218,11 +218,21 @@ class ProductProvider extends Component {
       .then((doc) => {
         console.log(doc.data(), 'hi');
         if (doc.data()) {
+          let products = [...this.state.products];
+          products.map((singlePro) => {
+            doc.data().cart.map((item) => {
+              if (item.title === singlePro.title) {
+                singlePro.inCart = true;
+              }
+            });
+          });
+
           this.setState({
             cart: doc.data().cart,
             cartSubTotal: doc.data().cartSubTotal,
             cartTax: doc.data().cartTax,
             cartTotal: doc.data().cartTotal,
+            products: products,
             err: {
               msg: '',
               type: '',
