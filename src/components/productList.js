@@ -18,8 +18,9 @@ export default class ProductList extends Component {
               <div className='row'>
                 <ProductConsumer>
                   {(value) => {
-                    return value.products.map((product) => {
-                      return <Product key={product.id} product={product} />;
+                    console.log('value', value.products);
+                    return value.products.map((product, idx) => {
+                      return <Product key={idx} product={product} />;
                     });
                   }}
                 </ProductConsumer>

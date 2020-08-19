@@ -187,12 +187,16 @@ class ProductProvider extends Component {
   };
 
   getStoreData = () => {
-    fire
-      .firestore()
-      .collection('products')
+    const db = fire.firestore();
+    db.collection('products')
       .get()
       .then((snapshot) => {
-        console.log(snapshot, 'man');
+        snapshot.docs.forEach((doc) => {
+          let products = doc.data();
+          this.setState({
+            products: [products],
+          });
+        });
       });
   };
 
