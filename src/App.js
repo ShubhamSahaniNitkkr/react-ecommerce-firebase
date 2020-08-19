@@ -14,7 +14,6 @@ class App extends Component {
   componentDidMount() {
     let value = this.context;
     value.authListner();
-    value.getStoreData();
   }
 
   render() {

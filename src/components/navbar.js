@@ -8,7 +8,8 @@ export default class Navbar extends Component {
     return (
       <ProductConsumer>
         {(value) => {
-          const { closeModal, logout, user } = value;
+          const { closeModal, logout, user, cart } = value;
+          console.log();
 
           return (
             <nav className='navbar navbar-expand-lg navbar-light bg-light'>
@@ -24,7 +25,7 @@ export default class Navbar extends Component {
                 </li>
               </ul>
 
-              {user && (
+              {user && cart.length ? (
                 <Link to='/cart' className='ml-auto'>
                   <button
                     type='button'
@@ -32,10 +33,11 @@ export default class Navbar extends Component {
                     onClick={() => closeModal()}
                   >
                     {' '}
-                    <i className='fas fa-shopping-bag'></i> My Cart
+                    <i className='fas fa-shopping-bag'></i> My Cart (&nbsp;
+                    {cart.length}&nbsp;)
                   </button>
                 </Link>
-              )}
+              ) : null}
 
               {user && (
                 <Link to='/'>

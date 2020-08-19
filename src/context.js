@@ -1,5 +1,6 @@
 import fire from './config/fire';
 import React, { Component } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { ecommerceProducts, detailProduct } from './data';
 const ProductContext = React.createContext();
 
@@ -14,10 +15,15 @@ class ProductProvider extends Component {
     cartTax: 0,
     cartTotal: 0,
     user: {},
+    email: '',
+    password: '',
+    uid: null,
   };
+
   componentDidMount() {
     this.setProducts();
   }
+
   setProducts = () => {
     let tempProducts = [];
     ecommerceProducts.forEach((item) => {
@@ -56,6 +62,7 @@ class ProductProvider extends Component {
 
       () => {
         this.addTotals();
+        this.setFireCart();
       }
     );
   };
@@ -179,25 +186,74 @@ class ProductProvider extends Component {
   authListner = () => {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ user });
+        this.setState({ user: user, uid: user.uid }, () => {
+          this.getCartData();
+        });
       } else {
         this.setState({ user: null });
       }
     });
   };
 
-  getStoreData = () => {
+  getCartData = () => {
+    // const db = fire.firestore();
+    // db.collection('products').onSnapshot((snapshot) => {
+    //   snapshot.docs.forEach((doc) => {
+    //     let products = doc.data();
+    //     this.setState({
+    //       products: [products],
+    //     });
+    //   });
+    // });
     const db = fire.firestore();
     db.collection('products')
+      .doc(this.state.uid)
       .get()
-      .then((snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          let products = doc.data();
-          this.setState({
-            products: [products],
-          });
+      .then((doc) => {
+        this.setState({
+          cart: doc.data() ? doc.data().cart : [],
         });
       });
+  };
+
+  setFireCart = () => {
+    const db = fire.firestore();
+    db.collection('products').doc(this.state.uid).set({
+      cart: this.state.cart,
+    });
+  };
+
+  onLogin = (e) => {
+    e.preventDefault();
+    fire
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then((user) => {
+        console.log(user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  onSignup = (e) => {
+    e.preventDefault();
+    fire
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then((user) => {
+        alert('Registered !');
+        BrowserRouter.push('/');
+      })
+      .catch((err) => {
+        alert('Email has been already used');
+      });
+  };
+
+  onChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   };
 
   render() {
@@ -215,7 +271,10 @@ class ProductProvider extends Component {
           clearCart: this.clearCart,
           logout: this.logout,
           authListner: this.authListner,
-          getStoreData: this.getStoreData,
+          getCartData: this.getCartData,
+          onLogin: this.onLogin,
+          onSignup: this.onSignup,
+          onChange: this.onChange,
         }}
       >
         {this.props.children}

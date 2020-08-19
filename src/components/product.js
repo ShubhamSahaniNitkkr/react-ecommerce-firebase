@@ -27,23 +27,21 @@ export default class Product extends Component {
                 <p className='card-text'>Price : ${price}</p>
                 <hr />
                 <div>
-                  <Link
-                    to='/details'
+                  <button
                     className='btn btn-outline-primary'
                     onClick={() => {
                       value.handleDetails(id);
-                      value.closeModal();
+                      value.openModal(id);
                     }}
                   >
                     Details
-                  </Link>
+                  </button>
 
                   <button
                     className='btn btn-outline-info ml-1'
                     disabled={inCart ? true : false}
                     onClick={() => {
                       value.addToCart(id);
-                      value.openModal(id);
                     }}
                   >
                     <i className='fas fa-shopping-bag'></i>{' '}

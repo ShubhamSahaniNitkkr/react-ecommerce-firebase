@@ -3,7 +3,6 @@ import CartItem from './cartItem';
 
 export default function CartList({ value }) {
   const { cart } = value;
-  console.log(value, cart);
   return (
     <React.Fragment>
       <table className='table table-bordered table-hover text-center table-striped '>

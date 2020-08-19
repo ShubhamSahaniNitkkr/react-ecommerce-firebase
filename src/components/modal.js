@@ -26,8 +26,8 @@ export default class Modal extends Component {
                   margin: '150px 0 0 0',
                 }}
               >
-                <h5 className='card-title alert alert-success' role='alert'>
-                  Added to cart
+                <h5 className='card-title alert alert-secondary' role='alert'>
+                  {title}
                 </h5>
                 <img src={img} className='card-img-top' alt={title} />
                 <div className='card-body'>
