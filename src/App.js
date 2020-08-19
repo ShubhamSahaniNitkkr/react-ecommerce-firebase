@@ -6,7 +6,7 @@ import { ProductContext } from './context';
 import Navbar from './components/navbar';
 import ProductList from './components/productList';
 import Details from './components/details';
-import Cart from './components/cart';
+import Cart from './components/cart/cart';
 import Default from './components/Default';
 import Modal from './components/modal';
 
